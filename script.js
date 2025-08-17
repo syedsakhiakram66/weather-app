@@ -50,13 +50,43 @@ async function getWeather(city) {
     }
 }
 
-function handleSearchClick() {
+async function handleSearchClick() {
     const city = cityInput.value.trim();
-    if (city) {
-        getWeather(city);
+    if(city){
+        try {
+            const data = await getWeather(city); // <-- need await here
+            if (data) {
+                const { currentData, forecastData, locationData } = data;
+                updateUI(currentData, forecastData, locationData); 
+            }
+        } catch (err) {
+            console.error(err);
+            alert("Failed to fetch weather");
+        }
     } else {
-        alert("Please enter a city name");
+        alert("no value");
     }
 }
 
 searchBtn.addEventListener("click", handleSearchClick);
+
+
+//update UI with weather data
+function updateUI(currentData, forecastData, locationData) {
+    const current = currentData[0];
+    const location = locationData[0];
+    
+    cityName.textContent = location.LocalizedName;
+    dateTime.textContent = new Date(current.LocalObservationDateTime).toLocaleString();
+    weatherIcon.src = `https://developer.accuweather.com/sites/default/files/${current.WeatherIcon.toString().padStart(2, '0')}-s.png`;
+    
+    temp.innerText = current.Temperature.Metric.value;
+    description.innerText = current.WeatherText;
+    feelsLike.innerText = current.RealFeelTemperature.Metric.Value
+    humidity.innerText = current.RelativeHumidity + "%";
+    wind.innerText = current.Wind.Speed.Metric.Value + " " + current.Wind.Speed.Metric.Unit;
+    unit = current.Temperature.Metric.Unit;
+    unitToggle.textContent = unit === "C" ? "Switch to °F" : "Switch to °C";
+
+
+}
