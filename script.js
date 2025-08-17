@@ -86,7 +86,32 @@ function updateUI(currentData, forecastData, locationData) {
     humidity.innerText = current.RelativeHumidity + "%";
     wind.innerText = current.Wind.Speed.Metric.Value + " " + current.Wind.Speed.Metric.Unit;
     unit = current.Temperature.Metric.Unit;
-    unitToggle.textContent = unit === "C" ? "Switch to °F" : "Switch to °C";
+  
+// Clear previous forecast
+forecast.innerHTML = "";
 
+// Check if forecast data exists
+if (forecastData && forecastData.DailyForecasts) {
+    forecastData.DailyForecasts.forEach(day => {
+        const date = new Date(day.Date).toLocaleDateString();
+        const iconNum = day.Day.Icon.toString().padStart(2, '0');
+        const iconUrl = `https://www.accuweather.com/images/weathericons/${iconNum}.svg`;
+        const minTemp = day.Temperature.Minimum.Value;
+        const maxTemp = day.Temperature.Maximum.Value;
+        const unit = day.Temperature.Minimum.Unit;
+        const desc = day.Day.IconPhrase;
+
+        // Create forecast card
+        const card = document.createElement("div");
+        card.className = "forecast-card";
+        card.innerHTML = `
+            <div>${date}</div>
+            <img src="${iconUrl}" alt="${desc}" />
+            <div>${desc}</div>
+            <div>Min: ${minTemp}°${unit} / Max: ${maxTemp}°${unit}</div>
+        `;
+        forecast.appendChild(card);
+    });
+}
 
 }
