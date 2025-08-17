@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weather App</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+    <header>
+      <h1>Weather App</h1>
+      <div class="search">
+        <input type="text" id="city-input" placeholder="Enter city name">
+        <button id="search-btn">Search</button>
+        <button id="unit-toggle">°C / °F</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="current-weather">
+        <h2>Current Weather</h2>
+        <p id="city-name">--</p>
+        <p id="date-time">--</p>
+        <img id="weather-icon" src="" alt="">
+        <p id="temp">-- °C</p>
+        <p id="description">--</p>
+        <p>Feels like: <span id="feels-like">-- °C</span></p>
+        <p>Humidity: <span id="humidity">--%</span></p>
+        <p>Wind: <span id="wind">-- km/h</span></p>
+      </section>
+
+      <section class="forecast">
+        <h2>5-Day Forecast</h2>
+        <div id="forecast"></div>
+      </section>
+    </main>
+
+    <footer>
+      <p>Powered by AccuWeather API</p>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
